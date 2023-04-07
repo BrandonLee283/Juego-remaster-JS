@@ -1,11 +1,20 @@
 const canvas = document.querySelector('#game')
 const context = canvas.getContext('2d')
+const btnArriba = document.querySelector('#arriba')
+const btnAbajo = document.querySelector('#abajo')
+const btnDerecha = document.querySelector('#derecha')
+const btnIzquierda = document.querySelector('#izquierda')
 
 window.addEventListener('load',setCanvasSize)
 window.addEventListener('resize',setCanvasSize)
 
 let canvasSize;
 let elementsSize;
+
+const playerPosition = {
+    x:undefined,
+    y:undefined,
+}
 
 
 function startGame() {
@@ -17,11 +26,20 @@ function startGame() {
     const mapRows = map.trim().split('\n')
     const mapCols = mapRows.map(row => row.trim().split(''))
 
+    context.clearRect(0,0,canvasSize,canvasSize)
     mapCols.forEach((row, rowi) => {
         row.forEach((col, coli) =>{
             console.log(col);
             const posX= elementsSize*(coli+1.2);
             const posY = elementsSize*(rowi+1);
+
+            if (col == 'O') {
+                if (!playerPosition.x && !playerPosition.y) {
+                    playerPosition.x= posX
+                    playerPosition.y=posY
+                    console.log(playerPosition);
+                }
+            }
             context.fillText(emojis[col],posX,posY)
         })
     });
@@ -30,6 +48,7 @@ function startGame() {
     //         context.fillText(emojis[mapCols[e-1][i-1]],elementsSize*i,elementsSize*e)
     //     }
     // }
+    moverJugador()
 }
 function setCanvasSize() {
 
@@ -45,4 +64,53 @@ function setCanvasSize() {
     elementsSize = canvasSize / 10
 
     startGame()
+}
+
+btnArriba.addEventListener('click',moverArriba)
+btnIzquierda.addEventListener('click',moverIzquierda)
+btnDerecha.addEventListener('click',moverDerecha)
+btnAbajo.addEventListener('click',moverAbajo)
+
+window.addEventListener('keydown', mover)
+
+function mover(event) {
+    console.log(event.key);
+    if (event.key == 'ArrowUp') {
+        moverArriba();
+    }else  if (event.key == 'ArrowDown') {
+        moverAbajo();
+    }else  if (event.key == 'ArrowRight') {
+        moverDerecha();
+    }else  if (event.key == 'ArrowLeft') {
+        moverIzquierda();
+    }
+}
+
+function moverArriba(params) {
+    if (!((playerPosition.y - elementsSize) < 0)) {
+        playerPosition.y -= elementsSize;
+        startGame()
+    }
+}
+function moverIzquierda(params) {
+    if (!((playerPosition.x - elementsSize) < elementsSize)) {
+    playerPosition.x -= elementsSize;
+    startGame()
+    }
+}
+function moverDerecha(params) {
+    if (!((playerPosition.x + elementsSize) > (canvasSize+elementsSize))) {
+    playerPosition.x += elementsSize;
+    startGame()
+    }
+}
+function moverAbajo(params) {
+    if (!((playerPosition.y + elementsSize) > (canvasSize))) {
+    playerPosition.y += elementsSize;
+    startGame()
+    }
+}
+function moverJugador() {
+    
+    context.fillText(emojis['PLAYER'],playerPosition.x,playerPosition.y)
 }
