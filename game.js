@@ -19,7 +19,7 @@ const regaloPosition ={
     x:undefined,
     y:undefined,
 }
-
+let bombasPositions = []
 function startGame() {
 
     context.font = elementsSize+'px Verdana'
@@ -30,6 +30,7 @@ function startGame() {
     const mapCols = mapRows.map(row => row.trim().split(''))
 
     context.clearRect(0,0,canvasSize,canvasSize)
+    bombasPositions = [];
     mapCols.forEach((row, rowi) => {
         row.forEach((col, coli) =>{
             console.log(col);
@@ -46,7 +47,12 @@ function startGame() {
             if (col == 'I') {
                 regaloPosition.x = posX
                 regaloPosition.y = posY
-
+            }
+            if (col == 'X') {
+                bombasPositions.push({
+                    x: posX,
+                    y: posY
+                })
             }
             context.fillText(emojis[col],posX,posY)
         })
@@ -124,6 +130,13 @@ function moverJugador() {
             alert('Colision')
         }
     } 
+
+    const enemyCollision = bombasPositions.find(bomba =>{
+        return(bomba.x.toFixed(5) - elementsSize == playerPosition.x.toFixed(5) && bomba.y.toFixed(5) == playerPosition.y.toFixed(5))
+    })
+    if (enemyCollision) {
+        alert('Chocaste')
+    }
     context.fillText(emojis['PLAYER'],playerPosition.x,playerPosition.y)
 
 }
