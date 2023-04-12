@@ -15,7 +15,10 @@ const playerPosition = {
     x:undefined,
     y:undefined,
 }
-
+const regaloPosition ={
+    x:undefined,
+    y:undefined,
+}
 
 function startGame() {
 
@@ -39,6 +42,11 @@ function startGame() {
                     playerPosition.y=posY
                     console.log(playerPosition);
                 }
+            }
+            if (col == 'I') {
+                regaloPosition.x = posX
+                regaloPosition.y = posY
+
             }
             context.fillText(emojis[col],posX,posY)
         })
@@ -111,6 +119,11 @@ function moverAbajo(params) {
     }
 }
 function moverJugador() {
-    
+    if (playerPosition.x != undefined && regaloPosition.x != undefined && playerPosition.y != undefined && regaloPosition.y != undefined) {
+        if (playerPosition.x.toFixed(5) == regaloPosition.x.toFixed(5) && playerPosition.y.toFixed(5) == regaloPosition.y.toFixed(5)) {
+            alert('Colision')
+        }
+    } 
     context.fillText(emojis['PLAYER'],playerPosition.x,playerPosition.y)
+
 }
