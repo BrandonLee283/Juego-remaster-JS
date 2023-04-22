@@ -1,4 +1,4 @@
-const emojis = { '-': ' ', 'O': '🚪', 'X': '💣', 'I': '🎁', 'PLAYER': '💀', 'BOMB_COLLISION': '🔥', 'GAME_OVER': '👎', 'WIN': '🏆', }; 
+const emojis = { 'HEARD': '❤️','-': ' ', 'O': '🚪', 'X': '💣', 'I': '🎁', 'PLAYER': '💀', 'BOMB_COLLISION': '🔥', 'GAME_OVER': '👎', 'WIN': '🏆', }; 
 const maps = []; 
 maps.push(`
   IXXXXXXXXX
