@@ -4,6 +4,8 @@ const btnArriba = document.querySelector('#arriba')
 const btnAbajo = document.querySelector('#abajo')
 const btnDerecha = document.querySelector('#derecha')
 const btnIzquierda = document.querySelector('#izquierda')
+const spanRecord = document.querySelector('.record')
+const pResult= document.querySelector('#result')
 
 window.addEventListener('load', setCanvasSize)
 window.addEventListener('resize', setCanvasSize)
@@ -39,6 +41,7 @@ function startGame() {
     if (!timeStart) {
         timeStart = Date.now()
         timeInterval = setInterval(mostrarTiempo,100)
+        showRecord()
     }
     mostrarVidas()
     const mapRows = map.trim().split('\n')
@@ -142,6 +145,21 @@ function moverAbajo(params) {
 const juegoTerminado= ()=>{
     alert('Terminaste el juego');
     clearInterval(timeInterval)
+
+    const recordTime = localStorage.getItem('record-time');
+    const playerTime = Date.now() - timeStart ;
+    if (recordTime) {
+        if (recordTime >= playerTime) {
+            localStorage.setItem('record-time',playerTime)
+            pResult.innerHTML = ('Superaste el record');
+        }else{
+            pResult.innerHTML = ('No superaste el record');
+        }
+    }else{
+        localStorage.setItem('record-time', playerTime);
+        pResult.innerHTML = ('Crea tu record');
+    }
+    console.log({recordTime,playerTime});
 }
 const ganaste = () => {
     alert('Subiste de nivel')
@@ -164,6 +182,9 @@ const mostrarTiempo = ()=>{
     const timepoP = document.querySelector('.tiempo')
 
     timepoP.innerHTML = Date.now() - timeStart 
+}
+const showRecord = () =>{
+    spanRecord.innerHTML = localStorage.getItem('record-time')
 }
 const perdiendoVidas =()=>{
     
